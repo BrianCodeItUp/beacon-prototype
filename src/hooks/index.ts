@@ -1,0 +1,1 @@
+export { default as useMonitorBeacon } from './useMonitorBeacon'

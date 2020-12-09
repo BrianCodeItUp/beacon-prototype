@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="375" height="417" viewBox="0 0 375 417">
+    <defs>
+        <linearGradient id="l5ydgj3g4g" x1="24.959%" x2="81.375%" y1="6.946%" y2="77.805%">
+            <stop offset="0%" stop-color="#6EFBFF"/>
+            <stop offset="45.876%" stop-color="#60C0FF"/>
+            <stop offset="100%" stop-color="#E065FF"/>
+        </linearGradient>
+        <linearGradient id="i2evy8581h" x1="127.81%" x2="5.793%" y1="-12.998%" y2="77.274%">
+            <stop offset="0%" stop-color="#FFF" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#4000F4" stop-opacity=".5"/>
+        </linearGradient>
+        <filter id="cb0bf4dwoc" width="113.2%" height="113.2%" x="-6.6%" y="-6.6%" filterUnits="objectBoundingBox">
+            <feOffset in="SourceAlpha" result="shadowOffsetOuter1"/>
+            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="6"/>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"/>
+            <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0.603658537 0 0 0 0 0.878655072 0 0 0 0 1 0 0 0 0.597027972 0"/>
+        </filter>
+        <filter id="xekp135kne" width="145.2%" height="145.2%" x="-22.6%" y="-14.9%" filterUnits="objectBoundingBox">
+            <feOffset dy="8" in="SourceAlpha" result="shadowOffsetOuter1"/>
+            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="6.5"/>
+            <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0.437402639 0 0 0 0 0.549415104 0 0 0 0 0.823228034 0 0 0 0.542668269 0"/>
+        </filter>
+        <circle id="apu791dr3d" cx="174.8" cy="174.8" r="136.4"/>
+        <circle id="1nuqtn8ixf" cx="52.4" cy="52" r="52"/>
+        <path id="abw8iltf4a" d="M0 0H375V417H0z"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g transform="translate(0 -88) translate(0 88)">
+                <mask id="babag449eb" fill="#fff">
+                    <use xlink:href="#abw8iltf4a"/>
+                </mask>
+                <g mask="url(#babag449eb)">
+                    <g transform="translate(13 23)">
+                        <circle cx="174.4" cy="175.2" r="129.6" fill="#FFF"/>
+                        <g>
+                            <g transform="translate(122.8 80.8)">
+                                <use fill="#000" filter="url(#xekp135kne)" xlink:href="#1nuqtn8ixf"/>
+                                <use fill="url(#l5ydgj3g4g)" xlink:href="#1nuqtn8ixf"/>
+                                <use fill="url(#i2evy8581h)" xlink:href="#1nuqtn8ixf"/>
+                            </g>
+                            <g fill="#FFF" fill-rule="nonzero">
+                                <path d="M31.892 38.216L19.08 27.6l12.812-10.616c1.21-1.003 1.21-2.852 0-3.854L16.754.586c-1.644-1.361-4.139-.2-4.139 1.928v19.03l-8.308-8.261c-.985-.98-2.583-.98-3.568 0-.985.98-.985 2.568 0 3.548L11.57 27.6.74 38.37c-.985.98-.985 2.567 0 3.547s2.583.98 3.568 0l8.308-8.26v19.03c0 2.127 2.495 3.288 4.139 1.927L31.892 42.07c1.21-1.003 1.21-2.851 0-3.854zM17.662 7.87l8.674 7.188-8.674 7.187V7.869zm0 39.461V32.956l8.674 7.187-8.674 7.187z" transform="translate(122.8 80.8) translate(36.4 24.8)"/>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

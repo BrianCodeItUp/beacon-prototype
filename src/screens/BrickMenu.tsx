@@ -60,7 +60,6 @@ const BrickMenu = ({ navigation }) => {
   const brickWidth = menuWidth / 2
 
   function navigateTo (path) {
-    console.log(path)
     navigation.navigate(path)
   }
   return (

@@ -2,16 +2,13 @@ import { useEffect, useRef, useState } from 'react'
 
 import Beacons from 'react-native-beacons-manager'
 import { Platform } from 'react-native'
-import beacons from 'react-native-beacons-manager'
 import { isEmpty } from 'lodash'
 
 const currentOS = Platform.OS
 
-interface BeaconInfo {
+interface Beacon {
   identifier: string;
   uuid: string;
-  major: number;
-  minor: number;
 }
 
 export enum BluetoothScanStatus {
@@ -23,50 +20,109 @@ export enum BluetoothScanStatus {
 
 /** 開啟偵測 Beacon 功能時長 */
 const RANGING_TIME = 5000;
-const useBeaconScan = (beaconInfoList: BeaconInfo[]) => {
-  // const [beacon, setBeacon] = useState<BeaconInfo>(null)
+const useBeaconScan = (beaconInfo: Beacon) => {
+  const [detectedBeacon, setDetectedBeacon] = useState<Beacon>(null)
   const [scanStatus, setScanStatus] = useState<BluetoothScanStatus>(null)
-  const beacon = useRef(null)
   const isComponentExist = useRef(true)
-  function startScanning () {
-    setScanStatus(BluetoothScanStatus.SCANNING)
-    
-    /** 模擬掃到打卡 Beacon */
-    setTimeout(() => {
-      if (isComponentExist.current) {
-        beacon.current = {
-          identifier: '測試 beacon',
-          uuid: '7A77FF0A-9EFE-4537-B12D-4FF0D861283D',
-          major: 12345,
-          minor: 4444
-        }
-      } 
-    }, 3000)
+
   
-    setTimeout(() => {
+
+  async function startScanning () {
+    
+    if (isEmpty(beaconInfo)) {
+      return;
+    }
+
+    setScanStatus(BluetoothScanStatus.SCANNING)
+
+
+    if(Platform.OS === 'ios') {
+      Beacons.startRangingBeaconsInRegion(beaconInfo);
+
+    }
+  
+
+    if(Platform.OS === 'android') {
+      
+      // Start detecting all iBeacons in the nearby
+      try {
+        await Beacons.startRangingBeaconsInRegion(beaconInfo)
+        console.log(`Beacons ranging started succesfully!`)
+      } catch (err) {
+        console.log(`Beacons ranging not started, error: ${err}`)
+      }
+    }
+
+    const id = setTimeout(() => {
       if (isComponentExist.current) {
-        console.log(beacon)
-        const result = isEmpty(beacon) ? BluetoothScanStatus.FAILED : BluetoothScanStatus.SUCCEED
-        setScanStatus(result)
+        setScanStatus(BluetoothScanStatus.FAILED)
+        Beacons.stopRangingBeaconsInRegion(beaconInfo)
       }
     }, RANGING_TIME)
+  
+    Beacons.BeaconsEventEmitter.addListener(
+      'beaconsDidRange',
+      async (data) => {
+        const { beacons } = data
+
+        if (beacons.length > 0) {
+          const { region } = data
+          if (Platform.OS === 'ios') {
+            const { uuid } = beacons[0];
+            const identifier = region.identifier
+
+            setDetectedBeacon({
+              identifier,
+              uuid
+            })
+
+            setScanStatus(BluetoothScanStatus.SUCCEED);
+            clearTimeout(id)
+            Beacons.stopRangingBeaconsInRegion(region);
+          }
+
+          if (Platform.OS === 'android') {
+            /**
+              * beacons: [{…}]
+              * identifier: "測試 beacon"
+              * uuid: "7a77ff0a-9efe-4537-b12d-4ff0d861283d"
+             */
+            const { identifier, uuid } = data
+            setDetectedBeacon({
+              identifier,
+              uuid
+            })
+            setScanStatus(BluetoothScanStatus.SUCCEED);
+            clearTimeout(id)
+            
+            Beacons.stopRangingBeaconsInRegion(beaconInfo);
+          }
+
+        }
+      },
+    );
+  
+
   }
 
   useEffect(() => {
-    beaconInfoList.map(beaconInfo => {
-        Beacons.startRangingBeaconsInRegion(beaconInfo);
-    })
-  }, [beaconInfoList])
+    if (Platform.OS === 'ios') {
+      Beacons.requestWhenInUseAuthorization();
+      Beacons.requestAlwaysAuthorization();
+    }
+    Beacons.detectIBeacons()
+
+
+  }, [])
 
   useEffect(() => {
     return () => {
-      console.log('fire fire')
       isComponentExist.current = false
     }
   }, [])
   return {
     startScanning,
-    beacon: beacon.current,
+    detectedBeacon,
     scanStatus
   }
 }

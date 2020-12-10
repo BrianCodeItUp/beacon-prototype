@@ -47,22 +47,24 @@ const BluetoothStatusTitle: TextStyle = {
 
 const BluetoothPunchCard = () => {
   const [currentTime, setCurrentTime] = useState(moment().valueOf())
-  const beaconInfoList = useBeaconInfoList()
-  const { startScanning, scanStatus, beacon } = useBeaconScan(beaconInfoList); 
+  const beaconInfo = useBeaconInfoList()
+  const { startScanning, scanStatus, detectedBeacon } = useBeaconScan(beaconInfo); 
  
   useInterval(() => {
     setCurrentTime(moment().valueOf());
   }, 1000);
  
   useEffect(() => {
-    startScanning()
-  }, [])
+    if (beaconInfo) {
+      startScanning()
+    }
+  }, [beaconInfo])
 
 
   function showBluetoothDetail () {
     Alert.alert(
       '藍芽資訊',
-      `uuid: ${beacon.uuid} \n major: ${beacon.major} \n minor: ${beacon.minor}`,
+      `uuid: ${detectedBeacon.uuid}`,
       [
         { text: "OK" }
       ],
@@ -91,7 +93,7 @@ const BluetoothPunchCard = () => {
     [BluetoothScanStatus.FAILED]: <BluetoothFailed {...IconProps} />
   }
 
-  const Icon = IconByStatus[scanStatus];
+  const Icon = IconByStatus[scanStatus] || <BluetoothSearching {...IconProps} />;
   const canPunch = scanStatus === BluetoothScanStatus.SUCCEED
   return (
     <View style={{ flex: 1,  backgroundColor: '#f5f5f5'}}>
@@ -108,12 +110,15 @@ const BluetoothPunchCard = () => {
         <View style={{ flex: 1, alignItems: 'center'  }}>
           <View style={BluetoothStatusContent}>
             {
+              scanStatus === null && <View><Text style={BluetoothStatusTitle}>公司指定藍芽訊號掃描中...</Text></View>
+            }
+            {
               scanStatus === BluetoothScanStatus.SCANNING && <View><Text style={BluetoothStatusTitle}>公司指定藍芽訊號掃描中...</Text></View>
             }
             {
               scanStatus === BluetoothScanStatus.SUCCEED && (
                 <View>
-                  <Text style={[BluetoothStatusTitle, { marginBottom: 20}]}>藍芽設備名稱: {beacon.identifier}</Text>
+                  <Text style={[BluetoothStatusTitle, { marginBottom: 20}]}>藍芽設備名稱: {detectedBeacon.identifier}</Text>
                   <Button title="更多設備資訊" onPress={showBluetoothDetail} />
                 </View>
               )

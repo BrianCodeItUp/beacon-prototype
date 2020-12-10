@@ -2,9 +2,12 @@
   package="com.prototype">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <!--  For old version of Andriod, this permission would work -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- Android Beacon Detection in the foreground after SDK 29  -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <!-- Androi Beacon Detection in the background after SDK 29 -->
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <application
       android:name=".MainApplication"
       android:label="@string/app_name"

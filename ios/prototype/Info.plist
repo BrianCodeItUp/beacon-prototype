@@ -37,6 +37,8 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>自動藍芽打卡需要存取您的位置</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>藍芽打卡需要您的位置</string>
 	<key>UILaunchStoryboardName</key>
@@ -51,8 +53,8 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>自動藍芽打卡需要存取您的位置</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>藍芽打卡需要存取您得藍芽</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>
